@@ -1,0 +1,2 @@
+FLASK_APP=spoti.py
+FLASK_ENV=development

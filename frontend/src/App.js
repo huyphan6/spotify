@@ -35,11 +35,11 @@ const Sample = () => {
       <button onClick={getSample}>Get Sample</button>
       </div>
       {loading ? (
-        <div>Loading...</div>
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>Loading...</div>
       ) : (
         <ul>
           {sampleList.map((track) => (
-            <li key={track.id}>{track}</li>
+            <li key={track.id} style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>{track}</li>
           ))}
         </ul>
       )}

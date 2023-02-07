@@ -21,6 +21,21 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 def hello():
     return "Hello World!"
 
+def getSongInfo(name):
+    url = "https://genius.p.rapidapi.com/search"
+    querystring = {"q":name}
+
+    headers = {
+        "X-RapidAPI-Key": getenv("rapid_api_key"),
+        "X-RapidAPI-Host": "genius.p.rapidapi.com"
+    }
+
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    title = response.json()['response']['hits'][0]['result']['full_title']
+
+    print(title)
+    return title
+
 @app.route("/getSample", methods=['POST'])
 @cross_origin()
 def getSample():
@@ -40,14 +55,17 @@ def getSample():
 
 
     soup = BeautifulSoup(sample_page.content, 'html.parser')
-    sample_result = []
+    sample_list = []
 
     for a in soup.find('section').find_all('a', href=True):
         if a.text != "Read the lyrics" and a.text != "View all":
-            sample_result.append(a.text)
+            sample_list.append(a.text)
+
+    sample_result = []
+    for sample in sample_list:
+        sample_result.append(getSongInfo(sample))
 
     print(sample_result)
-
     return sample_result
 
 if __name__ == '__main__':

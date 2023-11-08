@@ -33,7 +33,6 @@ def getSongInfo(name):
     response = requests.request("GET", url, headers=headers, params=querystring)
     title = response.json()['response']['hits'][0]['result']['full_title']
 
-    print(title)
     return title
 
 @app.route("/getSample", methods=['POST'])
@@ -61,11 +60,22 @@ def getSample():
         if a.text != "Read the lyrics" and a.text != "View all":
             sample_list.append(a.text)
 
+    # artist_names = []
+    # for artist_name in soup.find('section').find_all('span'):
+    #     print(f"artist names = {artist_name.text}")
+    #     artist_names.append(artist_name.text)
+    
+    # sample_list = list(zip(sample_list, artist_names))
+    # sample_list = [' '.join(sample) for sample in sample_list]
+
+    print(f"list of sample names: {sample_list}")
+
     sample_result = []
     for sample in sample_list:
+        print(f"sample name: {sample}")
         sample_result.append(getSongInfo(sample))
 
-    print(sample_result)
+    print(f"list of full sample titles: {sample_result}")
     return sample_result
 
 if __name__ == '__main__':

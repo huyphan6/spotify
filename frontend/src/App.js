@@ -15,13 +15,11 @@ const Sample = () => {
     axios
       .post("/getSample", { sample: sample })
       .then((res) => {
-        console.log("it worked");
         console.log(res.data);
         setsampleList(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.log("it failed");
         console.error(err);
         setLoading(false);
       });
